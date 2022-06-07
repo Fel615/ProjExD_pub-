@@ -385,7 +385,13 @@ class Breakout:
             else:  #山下直希
                 self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
                 self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
-            
+        else:
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
 
         # loopをUPDATE_TIME ms後に再度実行
         self.master.after(UPDATE_TIME, self.loop)
