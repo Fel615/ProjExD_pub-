@@ -691,10 +691,22 @@ class Breakout:
             )
             self.blocks.append(block)
             
-        if LEBEL_S=="HARD":
+        # if LEBEL_S=="HARD":
+        #     for v in range(NUM_V_BLOCK):
+        #         for h in range(NUM_H_BLOCK):
+        #             if ONESTROKE[v][h]!=0:
+        #                 block = Block(
+        #                     h * WIDTH_BLOCK + WIDTH_BLOCK // 2,
+        #                     v * HEIGHT_BLOCK + HEIGHT_BLOCK // 2,
+        #                     WIDTH_BLOCK,
+        #                     HEIGHT_BLOCK
+        #                 )
+        #                 self.blocks.append(block)
+        if LEBEL_S=="HARD":#ランダムでブロックが配置される仕様を実装
             for v in range(NUM_V_BLOCK):
                 for h in range(NUM_H_BLOCK):
-                    if ONESTROKE[v][h]!=0:
+                    RAM=rd.randint(0,1)
+                    if RAM!=0:
                         block = Block(
                             h * WIDTH_BLOCK + WIDTH_BLOCK // 2,
                             v * HEIGHT_BLOCK + HEIGHT_BLOCK // 2,
