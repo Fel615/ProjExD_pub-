@@ -33,6 +33,7 @@ LEBEL_S="EASY"#難易度設定
 LEBEL_C=(0,255,0)#スタートボタンの色
 SCORE=0#ブロックを破壊したポイント
 BONUS=0#床にぶつからずに連続でブロックを破壊
+SCOREB=0
 PDBO=False#床にボールが当たったか
 BG_PG="fig/pg_bg.jpg"#背景
 
@@ -689,13 +690,14 @@ def count_up():
     app.after(1000,count_up)
     
 def score():#New
-    global SCORE, BONUS,PDBO
+    global SCORE, BONUS,PDBO,SCOREB
     if PDBO==False:
         BONUS+=1
     else:
         BONUS=0
         PDBO=False
     SCORE+= (1+BONUS*(rd.randint(1,10)))
+    SCOREB+=1
     return
 
 def start_screen():#New
