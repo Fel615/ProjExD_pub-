@@ -602,7 +602,7 @@ class Breakout:
                             HEIGHT_BLOCK
                         )
                         self.blocks.append(block)
-                        
+
         if LEBEL_S=="Nightmare":
             for v in range(NUM_V_BLOCK):
                 for h in range(NUM_H_BLOCK):
@@ -656,6 +656,9 @@ class Breakout:
                     fill=COLOR_FILL
                 )
                 self.figs[self.blocks[block]] = figure
+            #C0B21004_阿部祐大--------EASYを左上に表示
+            self.canvas.create_text(25, 50, text = "EASY", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
+            #C0B21004_阿部祐大--------
         else:
             for block in range(len(self.blocks)):
                 x1, y1, x2, y2 = self.blocks[block].getCoords()
@@ -664,7 +667,16 @@ class Breakout:
                     fill=COLOR_BLOCK
                 )
                 self.figs[self.blocks[block]] = figure
-        
+            #C0B21004_阿部祐大--------  左上に難易度を表示 
+            if LEBEL_S=="NORMAL":
+                self.canvas.create_text(25, 50, text = "NORMAL", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
+
+            elif LEBEL_S=="HARD":
+                self.canvas.create_text(25, 50, text = "HARD", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "white")
+
+            elif LEBEL_S=="Nightmare":
+                self.canvas.create_text(25, 50, text = "NIGHTMARE", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "red")
+            #C0B21004_阿部祐大---------          
 
 
     def updateFigures(self):
