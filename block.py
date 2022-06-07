@@ -3,6 +3,7 @@ import math
 import pygame as pg
 import random as rd
 from PIL import ImageTk
+import time
 
 NUM_H_BLOCK = 10  # ブロックの数（横方向)
 NUM_V_BLOCK = 10  # ブロックの数（縦方向）
@@ -36,6 +37,9 @@ BONUS=0#床にぶつからずに連続でブロックを破壊
 PDBO=False#床にボールが当たったか
 BG_PG="fig/pg_bg.jpg"#背景
 
+#C0B21044_金井賛-------------------
+start = time.time()  #開始の時刻を取得
+#ここまでC0B21044_金井賛------------
 
 MARIO=[[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -118,6 +122,11 @@ class Ball:
 
     def move(self):
         '''移動'''
+        #C0B21044_金井賛-------------------
+        stop = time.time()  #現在の時刻を取得
+        self.speed = 10 + (stop - start)/5 #現在ー開始時刻で経過時間を算出し、スピードを変更
+        print(self.speed)
+        #ここまでC0B21044_金井賛------------
 
         # 移動方向に移動
         # self.x += self.dx
@@ -341,10 +350,17 @@ class Breakout:
         # ゲーム開始していない場合はゲーム開始
         if not self.is_playing:#New
             self.is_playing = True
+            self.canvas.delete("rect_1")
             music("1")
             self.loop()
-        # else:
-        #     self.is_playing = False
+        else:
+            self.is_playing = False
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="pause",
+                font=("Impact", 40, "bold", "underline"),
+                fill="red",
+                tag="rect_1")
 
     def loop(self):
         '''ゲームのメインループ'''
