@@ -844,6 +844,7 @@ def clear_screen(point):#New
     pg.mixer.music.load("./fig2/勝利18.wav") 
     pg.mixer.music.play(loops=-1, start=0.0)#ロードした音楽の再生
     
+    
     while True:
         pg.draw.rect(screen, (206,155,14), button1)# 描画するボタンもどきの設定
         screen.blit(text1, ((WIDTH-te_1[0])/2, 325))          # 文字列の表示位置
