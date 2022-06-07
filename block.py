@@ -703,7 +703,7 @@ class Breakout:
         #                     HEIGHT_BLOCK
         #                 )
         #                 self.blocks.append(block)
-        if LEBEL_S=="HARD":#ランダムでブロックが配置される仕様を実装
+        if LEBEL_S=="HARD":#ランダムでブロックが配置される仕様を実装 C0B21164 吉野啓汰
             for v in range(NUM_V_BLOCK):
                 for h in range(NUM_H_BLOCK):
                     RAM=rd.randint(0,1)
