@@ -691,6 +691,7 @@ class Breakout:
             )
             self.blocks.append(block)
             
+            
         # if LEBEL_S=="HARD":
         #     for v in range(NUM_V_BLOCK):
         #         for h in range(NUM_H_BLOCK):
