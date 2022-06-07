@@ -3,7 +3,9 @@ import math
 import pygame as pg
 import random as rd
 from PIL import ImageTk
+import time
 
+PV=False
 NUM_H_BLOCK = 10  # ブロックの数（横方向)
 NUM_V_BLOCK = 10  # ブロックの数（縦方向）
 WIDTH_BLOCK = 100  # ブロックの幅
@@ -23,6 +25,8 @@ NUM_BALL = 1  # ボールの数
 
 UPDATE_TIME = 20  # 更新間隔（ms）
 
+BREAK_BLOCK = 0  #山下直希
+
 START_GAME=False
 GAME_FINISH=False
 CLEAR_GAME=False
@@ -37,6 +41,9 @@ SCOREB=0
 PDBO=False#床にボールが当たったか
 BG_PG="fig/pg_bg.jpg"#背景
 
+#C0B21044_金井賛-------------------
+start = time.time()  #開始の時刻を取得
+#ここまでC0B21044_金井賛------------
 
 MARIO=[[0,0,0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0,0,0],
@@ -119,6 +126,11 @@ class Ball:
 
     def move(self):
         '''移動'''
+        #C0B21044_金井賛-------------------
+        stop = time.time()  #現在の時刻を取得
+        self.speed = 10 + (stop - start)/5 #現在ー開始時刻で経過時間を算出し、スピードを変更
+        #print(self.speed)
+        #ここまでC0B21044_金井賛------------
 
         # 移動方向に移動
         # self.x += self.dx
@@ -153,12 +165,13 @@ class Ball:
             self.reflectV()
             self.y = self.y_min
 
-        # elif self.y > self.y_max:
-        #     #下の壁とぶつかった
+        elif self.y > self.y_max:
+            #下の壁とぶつかった
+            if PV==True:
 
-        #     #縦方向に反射
-        #     self.reflectV()
-        #     self.y = self.y_max
+                #縦方向に反射
+                self.reflectV()
+                self.y = self.y_max
 
     def turn(self, angle):
         '''移動方向をangleに応じて設定'''
@@ -313,6 +326,8 @@ class Breakout:
     def __init__(self, master):
         '''ブロック崩しゲーム起動'''
         self.master = master
+        
+        self.block = BREAK_BLOCK
 
         # サイズを設定
         self.width = NUM_H_BLOCK * WIDTH_BLOCK
@@ -342,10 +357,21 @@ class Breakout:
         # ゲーム開始していない場合はゲーム開始
         if not self.is_playing:#New
             self.is_playing = True
+            #C0B21044_金井賛-------------------
+            self.canvas.delete("rect_1")
+            #ここまでC0B21044_金井賛------------
             music("1")
             self.loop()
-        # else:
-        #     self.is_playing = False
+        else:
+            self.is_playing = False
+            #C0B21044_金井賛-------------------
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="pause",
+                font=("Impact", 40, "bold", "underline"),
+                fill="red",
+                tag="rect_1")
+            #ここまでC0B21044_金井賛------------
 
     def loop(self):
         '''ゲームのメインループ'''
@@ -362,18 +388,33 @@ class Breakout:
         #self.canvas.create_text(50,400,text=tms,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="black",tag="times")
         
         if LEBEL_S=="Nightmare":
-            self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")
-            self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
         elif LEBEL_S=="EASY":
-            self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")
-            self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
+                self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
         elif LEBEL_S=="HARD":
-            self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")
-            self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
         else:
-            self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="black",tag="times")
-            self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="black",tag="times")
-        
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
 
         # loopをUPDATE_TIME ms後に再度実行
         self.master.after(UPDATE_TIME, self.loop)
@@ -420,7 +461,7 @@ class Breakout:
 
     def collision(self):
         '''当たり判定と当たった時の処理'''
-        global PDBO
+        global PDBO, SCORE  #山下直希
 
         for ball in  self.balls:
 
@@ -455,6 +496,26 @@ class Breakout:
 
                 # 一番大きく当たったブロックを削除
                 self.delete(collided_block)
+                
+                self.block += 1  #山下直希
+                if self.block >= 20:  #山下直希
+                    self.delete(self.paddle)  #前のパドル削除　　#山下直希
+                    WIDTH_PADDLE = 100  #山下直希
+                    if LEBEL_S=="HARD" or LEBEL_S=="Nightmare":  #山下直希
+                         WIDTH_PADDLE = 30  #山下直希
+                    #パドル作成　  #山下直希
+                    self.paddle = Paddle(
+                        self.width // 2, self.height - Y_PADDLE,
+                        WIDTH_PADDLE, HEIGHT_PADDLE,
+                        WIDTH_PADDLE // 2, self.height - Y_PADDLE,
+                        self.width - WIDTH_PADDLE // 2, self.height - Y_PADDLE
+                    )  #山下直希
+                    x1, y1, x2, y2 = self.paddle.getCoords()
+                    figure = self.canvas.create_rectangle(
+                        x1, y1, x2, y2,
+                        fill=COLOR_PADDLE
+                    )  #山下直希
+                    self.figs[self.paddle] = figure  #山下直希 
 
             for another_ball in self.balls:
                 if another_ball is ball:
@@ -476,11 +537,20 @@ class Breakout:
                 PDBO=True#New
 
     def result(self):
-        global tms2,GAME_FINISH,CLEAR_GAME,OVER_GAME
+        global tms2,GAME_FINISH,CLEAR_GAME,OVER_GAME,tmr,tmr2 #C0B21166_李梓萱
         '''ゲームの結果を表示する'''
 
         if len(self.blocks) == 0:#New
             tms2=False
+            #C0B21166_李梓萱
+            tmr2 = False
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="GAME CLEAR",
+                font=("", 40),
+                fill="blue"
+            )
+
             music_sp()
             GAME_FINISH=True
             CLEAR_GAME=True
@@ -494,6 +564,15 @@ class Breakout:
             self.is_playing = False
 
         if len(self.balls) == 0:#New
+            #C0B21166_李梓萱
+            tmr2 = False
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="GAME OVER",
+                font=("", 40),
+                fill="red"
+            )
+
             music_sp()
             tms2=False
             GAME_FINISH=True
@@ -507,6 +586,13 @@ class Breakout:
             
 
             self.is_playing = False
+        #C0B21166_李梓萱
+        if tmr == 0:
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="GAME OVER",
+                font=("", 40),
+                fill="red")
 
     def setEvents(self):
         '''イベント受付設定'''
@@ -602,7 +688,7 @@ class Breakout:
                             HEIGHT_BLOCK
                         )
                         self.blocks.append(block)
-                        
+
         if LEBEL_S=="Nightmare":
             for v in range(NUM_V_BLOCK):
                 for h in range(NUM_H_BLOCK):
@@ -656,6 +742,9 @@ class Breakout:
                     fill=COLOR_FILL
                 )
                 self.figs[self.blocks[block]] = figure
+            #C0B21004_阿部祐大--------EASYを左上に表示
+            self.canvas.create_text(25, 50, text = "EASY", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
+            #C0B21004_阿部祐大--------
         else:
             for block in range(len(self.blocks)):
                 x1, y1, x2, y2 = self.blocks[block].getCoords()
@@ -664,7 +753,16 @@ class Breakout:
                     fill=COLOR_BLOCK
                 )
                 self.figs[self.blocks[block]] = figure
-        
+            #C0B21004_阿部祐大--------  左上に難易度を表示 
+            if LEBEL_S=="NORMAL":
+                self.canvas.create_text(25, 50, text = "NORMAL", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
+
+            elif LEBEL_S=="HARD":
+                self.canvas.create_text(25, 50, text = "HARD", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "white")
+
+            elif LEBEL_S=="Nightmare":
+                self.canvas.create_text(25, 50, text = "NIGHTMARE", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "red")
+            #C0B21004_阿部祐大---------          
 
 
     def updateFigures(self):
@@ -920,6 +1018,21 @@ def music(num):#New
 def music_sp():#New
     pg.mixer.music.stop()
 
+#C0B21166＿李梓萱
+def count_down():
+    global tmr, tmr2
+    
+    if tmr2 == True:
+        tmr = tmr-1
+    if tmr == 0:
+        tmr2 = False
+        
+    label["text"] = tmr
+    app.after(1000, count_down)
+
+tmr = 300
+tmr2 = True
+
 
 if __name__ == "__main__":
     pg.init() # Pygameの初期化
@@ -931,8 +1044,17 @@ if __name__ == "__main__":
         pg.init()
         app = tk.Tk()
         app.title("ブロック崩し")
-        Breakout(app)
+        #C0B21166_李梓萱
+        label = tk.Label(app,
+            font=("Times New Roman", 80))
+        label.pack()
+
         app.after(1000,count_up)
+        #C0B21166_李梓萱
+        app.after(1000,count_down)
+
+        Breakout(app)
+        
         app.mainloop()
     if CLEAR_GAME==True:
         clear_screen(SCORE)
