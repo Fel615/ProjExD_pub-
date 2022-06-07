@@ -476,11 +476,20 @@ class Breakout:
                 PDBO=True#New
 
     def result(self):
-        global tms2,GAME_FINISH,CLEAR_GAME,OVER_GAME
+        global tms2,GAME_FINISH,CLEAR_GAME,OVER_GAME,tmr,tmr2 #C0B21166_李梓萱
         '''ゲームの結果を表示する'''
 
         if len(self.blocks) == 0:#New
             tms2=False
+            #C0B21166_李梓萱
+            tmr2 = False
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="GAME CLEAR",
+                font=("", 40),
+                fill="blue"
+            )
+
             music_sp()
             GAME_FINISH=True
             CLEAR_GAME=True
@@ -494,6 +503,15 @@ class Breakout:
             self.is_playing = False
 
         if len(self.balls) == 0:#New
+            #C0B21166_李梓萱
+            tmr2 = False
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="GAME OVER",
+                font=("", 40),
+                fill="red"
+            )
+
             music_sp()
             tms2=False
             GAME_FINISH=True
@@ -507,6 +525,13 @@ class Breakout:
             
 
             self.is_playing = False
+        #C0B21166_李梓萱
+        if tmr == 0:
+            self.canvas.create_text(
+                self.width // 2, self.height // 2,
+                text="GAME OVER",
+                font=("", 40),
+                fill="red")
 
     def setEvents(self):
         '''イベント受付設定'''
@@ -932,6 +957,21 @@ def music(num):#New
 def music_sp():#New
     pg.mixer.music.stop()
 
+#C0B21166＿李梓萱
+def count_down():
+    global tmr, tmr2
+    
+    if tmr2 == True:
+        tmr = tmr-1
+    if tmr == 0:
+        tmr2 = False
+        
+    label["text"] = tmr
+    app.after(1000, count_down)
+
+tmr = 300
+tmr2 = True
+
 
 if __name__ == "__main__":
     pg.init() # Pygameの初期化
@@ -943,8 +983,17 @@ if __name__ == "__main__":
         pg.init()
         app = tk.Tk()
         app.title("ブロック崩し")
-        Breakout(app)
+        #C0B21166_李梓萱
+        label = tk.Label(app,
+            font=("Times New Roman", 80))
+        label.pack()
+
         app.after(1000,count_up)
+        #C0B21166_李梓萱
+        app.after(1000,count_down)
+
+        Breakout(app)
+        
         app.mainloop()
     if CLEAR_GAME==True:
         clear_screen(SCORE)
