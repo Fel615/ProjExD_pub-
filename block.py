@@ -5,7 +5,7 @@ import random as rd
 from PIL import ImageTk
 import time
 
-PV=False
+PV=True
 NUM_H_BLOCK = 10  # ブロックの数（横方向)
 NUM_V_BLOCK = 10  # ブロックの数（縦方向）
 WIDTH_BLOCK = 100  # ブロックの幅
@@ -502,7 +502,7 @@ class Breakout:
                     self.delete(self.paddle)  #前のパドル削除　　#山下直希
                     WIDTH_PADDLE = 100  #山下直希
                     if LEBEL_S=="HARD" or LEBEL_S=="Nightmare":  #山下直希
-                         WIDTH_PADDLE = 30  #山下直希
+                            WIDTH_PADDLE = 30  #山下直希
                     #パドル作成　  #山下直希
                     self.paddle = Paddle(
                         self.width // 2, self.height - Y_PADDLE,
@@ -1036,7 +1036,7 @@ tmr2 = True
 
 if __name__ == "__main__":
     pg.init() # Pygameの初期化
-    #clear_screen()
+    #clear_screen(2000)
     #over_screen()
     start_screen()
     if START_GAME==True:
