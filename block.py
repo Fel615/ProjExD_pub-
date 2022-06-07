@@ -5,7 +5,7 @@ import random as rd
 from PIL import ImageTk
 import time
 
-PV=True
+PV=False
 NUM_H_BLOCK = 10  # ブロックの数（横方向)
 NUM_V_BLOCK = 10  # ブロックの数（縦方向）
 WIDTH_BLOCK = 100  # ブロックの幅
@@ -99,6 +99,7 @@ tms=0
 tms2=True
 
 class Ball:
+    global SCOREB
     def __init__(self, x, y, radius, x_min, y_min, x_max, y_max):
         '''ボール作成'''
 
@@ -125,6 +126,7 @@ class Ball:
         return (self.x - self.r, self.y - self.r, self.x + self.r, self.y + self.r)
 
     def move(self):
+        global SCOREB
         '''移動'''
         #C0B21044_金井賛-------------------
         stop = time.time()  #現在の時刻を取得
@@ -165,10 +167,22 @@ class Ball:
             self.reflectV()
             self.y = self.y_min
 
-        elif self.y > self.y_max:
+        elif self.y > self.y_max:#C0B21164 吉野啓汰　床に当たっていい回数設定
+            SCOREB+=1
             #下の壁とぶつかった
-            if PV==True:
-
+            if  LEBEL_S=="EASY"and SCOREB<=4:
+                #縦方向に反射
+                self.reflectV()
+                self.y = self.y_max
+            elif  LEBEL_S=="NORMAL"and SCOREB<=3:
+                #縦方向に反射
+                self.reflectV()
+                self.y = self.y_max
+            elif  LEBEL_S=="HARD"and SCOREB<=2:
+                #縦方向に反射
+                self.reflectV()
+                self.y = self.y_max
+            elif  LEBEL_S=="Nightmare"and SCOREB<=1:
                 #縦方向に反射
                 self.reflectV()
                 self.y = self.y_max
@@ -428,8 +442,8 @@ class Breakout:
         delete_balls = []
         for ball in self.balls:
             if not ball.exists():
-                # 外に出たボールは削除対象リストに入れる
-                delete_balls.append(ball)
+                    # 外に出たボールは削除対象リストに入れる
+                    delete_balls.append(ball)
 
         for ball in delete_balls:
             # 削除対象リストのボールを削除
