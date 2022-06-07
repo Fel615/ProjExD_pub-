@@ -601,7 +601,7 @@ class Breakout:
                             HEIGHT_BLOCK
                         )
                         self.blocks.append(block)
-                        
+
         if LEBEL_S=="Nightmare":
             for v in range(NUM_V_BLOCK):
                 for h in range(NUM_H_BLOCK):
@@ -655,6 +655,9 @@ class Breakout:
                     fill=COLOR_FILL
                 )
                 self.figs[self.blocks[block]] = figure
+            #C0B21004_阿部祐大--------
+            self.canvas.create_text(25, 50, text = "EASY", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
+            #C0B21004_阿部祐大--------
         else:
             for block in range(len(self.blocks)):
                 x1, y1, x2, y2 = self.blocks[block].getCoords()
@@ -663,7 +666,16 @@ class Breakout:
                     fill=COLOR_BLOCK
                 )
                 self.figs[self.blocks[block]] = figure
-        
+            #C0B21004_阿部祐大--------   
+            if LEBEL_S=="NORMAL":
+                self.canvas.create_text(25, 50, text = "NORMAL", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
+
+            elif LEBEL_S=="HARD":
+                self.canvas.create_text(25, 50, text = "HARD", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "white")
+
+            elif LEBEL_S=="Nightmare":
+                self.canvas.create_text(25, 50, text = "NIGHTMARE", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "red")
+            #C0B21004_阿部祐大---------          
 
 
     def updateFigures(self):
@@ -709,11 +721,11 @@ def start_screen():#New
     pup_ct=0
     screen = pg.display.set_mode((WIDTH,HEIGHT))    # 大きさ600*500の画面を生成
     pg.display.set_caption("ブロック崩し")              # タイトルバーに表示する文字
-    pg.mixer.music.load("./Lastkadai/fig2/セレクト画面.mp3") 
+    pg.mixer.music.load("./fig2/セレクト画面.mp3") 
     pg.mixer.music.set_volume(0.5)
     pg.mixer.music.play(loops=-1, start=0.0)#ロードした音楽の再生
-    font = pg.font.Font("./Lastkadai/ipaexg.ttf", 55)               # フォントの設定(55px)
-    font2 = pg.font.Font("./Lastkadai/ipaexg.ttf", 30) 
+    font = pg.font.Font("./ipaexg.ttf", 55)               # フォントの設定(55px)
+    font2 = pg.font.Font("./ipaexg.ttf", 30) 
     screen.fill((137,189,222))                                    # 画面を空色に塗りつぶし
     button1 = pg.Rect(200, 300, 200, 100)        #ボタンもどきを生成
     text1 = font.render("START", True, (0,0,0)) #ボタンの文字を作成
@@ -730,9 +742,9 @@ def start_screen():#New
     text = font.render("ブロック崩し", True, (128,128,255))   # 描画する文字列の設定
     text_rect = text.get_rect(center=(WIDTH//2, HEIGHT//2-100))#文字の中央の座標を取得
     
-    hit=pg.mixer.Sound("./Lastkadai/fig2/決定、ボタン押下3.mp3")
-    bs=pg.mixer.Sound("./Lastkadai/fig2/nc129702 ボス、モンスターの叫び声.mp3")
-    cl=pg.mixer.Sound("./Lastkadai/fig2/決定、ボタン押下5.mp3")
+    hit=pg.mixer.Sound("./fig2/決定、ボタン押下3.mp3")
+    bs=pg.mixer.Sound("./fig2/nc129702 ボス、モンスターの叫び声.mp3")
+    cl=pg.mixer.Sound("./fig2/決定、ボタン押下5.mp3")
     hit.set_volume(1.0)
     
     while True:
@@ -820,20 +832,20 @@ def start_screen():#New
 
 def level(s):#New
     if s=="EASY":
-        return 10,10,60,30,"blue",400,250,20,50,"green",15,"red",1 ,"./Lastkadai/fig2/easy_bg.png"
+        return 10,10,60,30,"blue",400,250,20,50,"green",15,"red",1 ,"./fig2/easy_bg.png"
     elif s=="NORMAL":
-        return 10,10,100,30,"sandy brown",400,200,20,50,"green",15,"red",1 ,"./Lastkadai/fig2/desert_bg.jpg"
+        return 10,10,100,30,"sandy brown",400,200,20,50,"green",15,"red",1 ,"./fig2/desert_bg.jpg"
     elif s=="HARD":
-        return 10,10,100,30,"blue",400,100,20,50,"green",10,"red",1,"./Lastkadai/fig2/hard_bg.jpg"
+        return 10,10,100,30,"blue",400,100,20,50,"green",10,"red",1,"./fig2/hard_bg.jpg"
     elif s=="Nightmare":
-        return 8,8,50,50,"gray",320,80,20,50,"green",10,"red",1,"./Lastkadai/fig2/Nightmare_bg.jpg"
+        return 8,8,50,50,"gray",320,80,20,50,"green",10,"red",1,"./fig2/Nightmare_bg.jpg"
 
 def clear_screen(point):#New
     WIDTH = 600
     HEIGHT = 500
     screen = pg.display.set_mode((WIDTH,HEIGHT))    # 大きさ600*500の画面を生成
     pg.display.set_caption("GAMECLEAR")              # タイトルバーに表示する文字
-    font = pg.font.Font("./Lastkadai/ipaexg.ttf", 55) 
+    font = pg.font.Font("./ipaexg.ttf", 55) 
     screen.fill((137,189,222))                                    # 画面を空色に塗りつぶし
     text1 = font.render(str(point), True, (0,0,0)) #ボタンの文字を作成
     te_1=list(font.size(str(point)))
@@ -841,7 +853,7 @@ def clear_screen(point):#New
     text2 = font.render("Game Clear", True, (0,0,0)) #ボタンの文字を作成
     te_2=list(font.size("Game Clear"))
     button2 = pg.Rect((WIDTH-te_2[0])/2, 125, 310, 60)        #ボタンもどきを生成
-    pg.mixer.music.load("./Lastkadai/fig2/勝利18.wav") 
+    pg.mixer.music.load("./fig2/勝利18.wav") 
     pg.mixer.music.play(loops=-1, start=0.0)#ロードした音楽の再生
     
     while True:
@@ -860,7 +872,7 @@ def over_screen():#New
     HEIGHT = 500
     screen = pg.display.set_mode((WIDTH,HEIGHT))    # 大きさ600*500の画面を生成
     pg.display.set_caption("GAMEOVER")              # タイトルバーに表示する文字
-    font = pg.font.Font("./Lastkadai/ipaexg.ttf", 55) 
+    font = pg.font.Font("./ipaexg.ttf", 55) 
     screen.fill((137,189,222))                                    # 画面を空色に塗りつぶし
     text1 = font.render("終了", True, (0,0,0)) #ボタンの文字を作成
     te_1=list(font.size("終了"))
@@ -868,7 +880,7 @@ def over_screen():#New
     text2 = font.render("Game Over", True, (0,0,0)) #ボタンの文字を作成
     te_2=list(font.size("Game Over"))
     button2 = pg.Rect((WIDTH-te_2[0])/2, 125, 290, 60)        #ボタンもどきを生成
-    pg.mixer.music.load("./Lastkadai/fig2/zannense.mp3") 
+    pg.mixer.music.load("./fig2/zannense.mp3") 
     pg.mixer.music.play(loops=1, start=0.0)#ロードした音楽の再生
     while True:
         pg.draw.rect(screen, (40,52,85), button1)# 描画するボタンもどきの設定
@@ -888,30 +900,30 @@ def over_screen():#New
 def music(num):#New
     if num=="1":
         if LEBEL_S=="EASY":
-            pg.mixer.music.load("./Lastkadai/fig2/レッツゴー.mp3") 
+            pg.mixer.music.load("./fig2/レッツゴー.mp3") 
             pg.mixer.music.play(loops=-1, start=0.0)#ロードした音楽の再生
         if LEBEL_S=="NORMAL":
-            pg.mixer.music.load("./Lastkadai/fig2/Inside-the-pyramid.mp3") 
+            pg.mixer.music.load("./fig2/Inside-the-pyramid.mp3") 
             pg.mixer.music.play(loops=-1, start=0.0)#ロードした音楽の再生
         if LEBEL_S=="HARD":
-            pg.mixer.music.load("./Lastkadai/fig2/Ys Healing  Dreams of the Goddess Feena.mp3") 
+            pg.mixer.music.load("./fig2/Ys Healing  Dreams of the Goddess Feena.mp3") 
             pg.mixer.music.play(loops=-1, start=20.0)#ロードした音楽の再生
         if LEBEL_S=="Nightmare":
-            pg.mixer.music.load("./Lastkadai/fig2/魔王魂 旧ゲーム音楽 ラストボス02.mp3") 
+            pg.mixer.music.load("./fig2/魔王魂 旧ゲーム音楽 ラストボス02.mp3") 
             pg.mixer.music.play(loops=-1, start=8.0)#ロードした音楽の再生
     elif num=="2":
         if LEBEL_S=="EASY":
-            hit_1=pg.mixer.Sound("./Lastkadai/fig2/coin05.mp3")
+            hit_1=pg.mixer.Sound("./fig2/coin05.mp3")
             hit_1.play()
         if LEBEL_S=="NORMAL":
-            hit_2=pg.mixer.Sound("./Lastkadai/fig2/audio_2329.wav")
+            hit_2=pg.mixer.Sound("./fig2/audio_2329.wav")
             hit_2.play()
         if LEBEL_S=="HARD":
-            hit_3=pg.mixer.Sound("./Lastkadai/fig2/crrect_answer2.mp3")
+            hit_3=pg.mixer.Sound("./fig2/crrect_answer2.mp3")
             hit_3.set_volume(0.2)
             hit_3.play()
         if LEBEL_S=="Nightmare":
-            hit_4=pg.mixer.Sound("./Lastkadai/fig2/ショットガン発射.mp3")
+            hit_4=pg.mixer.Sound("./fig2/ショットガン発射.mp3")
             hit_4.play()
 
 def music_sp():#New
