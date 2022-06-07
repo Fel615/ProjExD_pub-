@@ -23,6 +23,8 @@ NUM_BALL = 1  # ボールの数
 
 UPDATE_TIME = 20  # 更新間隔（ms）
 
+BREAK_BLOCK = 0  #山下直希
+
 START_GAME=False
 GAME_FINISH=False
 CLEAR_GAME=False
@@ -312,6 +314,8 @@ class Breakout:
     def __init__(self, master):
         '''ブロック崩しゲーム起動'''
         self.master = master
+        
+        self.block = BREAK_BLOCK
 
         # サイズを設定
         self.width = NUM_H_BLOCK * WIDTH_BLOCK
@@ -361,18 +365,27 @@ class Breakout:
         #self.canvas.create_text(50,400,text=tms,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="black",tag="times")
         
         if LEBEL_S=="Nightmare":
-            self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")
-            self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
         elif LEBEL_S=="EASY":
-            self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")
-            self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
+                self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="blue",tag="times")  #山下直希
         elif LEBEL_S=="HARD":
-            self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")
-            self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")
-        else:
-            self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="black",tag="times")
-            self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="black",tag="times")
-        
+            if self.block >= 20:  #山下直希
+                self.canvas.create_text(30,300,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+                self.canvas.create_text(50,400,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="red",tag="times")  #山下直希
+            else:  #山下直希
+                self.canvas.create_text(50,500,text="スコア",anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
+                self.canvas.create_text(50,600,text=SCORE,anchor="sw",font=("HG丸ゴシックM-PRO",24),fill="yellow",tag="times")  #山下直希
+            
 
         # loopをUPDATE_TIME ms後に再度実行
         self.master.after(UPDATE_TIME, self.loop)
@@ -419,7 +432,7 @@ class Breakout:
 
     def collision(self):
         '''当たり判定と当たった時の処理'''
-        global PDBO
+        global PDBO, SCORE  #山下直希
 
         for ball in  self.balls:
 
@@ -454,6 +467,26 @@ class Breakout:
 
                 # 一番大きく当たったブロックを削除
                 self.delete(collided_block)
+                
+                self.block += 1  #山下直希
+                if self.block >= 20:  #山下直希
+                    self.delete(self.paddle)  #前のパドル削除　　#山下直希
+                    WIDTH_PADDLE = 100  #山下直希
+                    if LEBEL_S=="HARD" or LEBEL_S=="Nightmare":  #山下直希
+                         WIDTH_PADDLE = 30  #山下直希
+                    #パドル作成　  #山下直希
+                    self.paddle = Paddle(
+                        self.width // 2, self.height - Y_PADDLE,
+                        WIDTH_PADDLE, HEIGHT_PADDLE,
+                        WIDTH_PADDLE // 2, self.height - Y_PADDLE,
+                        self.width - WIDTH_PADDLE // 2, self.height - Y_PADDLE
+                    )  #山下直希
+                    x1, y1, x2, y2 = self.paddle.getCoords()
+                    figure = self.canvas.create_rectangle(
+                        x1, y1, x2, y2,
+                        fill=COLOR_PADDLE
+                    )  #山下直希
+                    self.figs[self.paddle] = figure  #山下直希 
 
             for another_ball in self.balls:
                 if another_ball is ball:
