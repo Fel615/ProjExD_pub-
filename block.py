@@ -350,17 +350,21 @@ class Breakout:
         # ゲーム開始していない場合はゲーム開始
         if not self.is_playing:#New
             self.is_playing = True
+            #C0B21044_金井賛-------------------
             self.canvas.delete("rect_1")
+            #ここまでC0B21044_金井賛------------
             music("1")
             self.loop()
         else:
             self.is_playing = False
+            #C0B21044_金井賛-------------------
             self.canvas.create_text(
                 self.width // 2, self.height // 2,
                 text="pause",
                 font=("Impact", 40, "bold", "underline"),
                 fill="red",
                 tag="rect_1")
+            #ここまでC0B21044_金井賛------------
 
     def loop(self):
         '''ゲームのメインループ'''
