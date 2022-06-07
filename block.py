@@ -655,7 +655,7 @@ class Breakout:
                     fill=COLOR_FILL
                 )
                 self.figs[self.blocks[block]] = figure
-            #C0B21004_阿部祐大--------
+            #C0B21004_阿部祐大--------EASYを左上に表示
             self.canvas.create_text(25, 50, text = "EASY", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
             #C0B21004_阿部祐大--------
         else:
@@ -666,7 +666,7 @@ class Breakout:
                     fill=COLOR_BLOCK
                 )
                 self.figs[self.blocks[block]] = figure
-            #C0B21004_阿部祐大--------   
+            #C0B21004_阿部祐大--------  左上に難易度を表示 
             if LEBEL_S=="NORMAL":
                 self.canvas.create_text(25, 50, text = "NORMAL", anchor = "sw", font=("HG丸ｺﾞｼｯｸM-PRO",24), fill = "black")
 
